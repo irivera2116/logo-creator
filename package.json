@@ -1,0 +1,22 @@
+{
+    "name": "logo-creator",
+    "version": "1.0.0",
+    "description": "A command line application that creates an SVG logo by allowing a user to select a color, shape and three letters.",
+    "main": "index.js",
+    "directories": {
+        "lib": "lib"
+    },
+    "scripts": {
+        "start": "node index.js",
+        "test": "jest"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "MIT",
+    "dependencies": {
+        "inquirer": "^8.2.4"
+    },
+    "devDependencies": {
+        "jest": "^29.5.0"
+    }
+}
