@@ -1,7 +1,7 @@
 // importing inquirer, fs, and shapes
 const inquirer = require('inquirer');
 const fs = require('fs');
-const {square, circle, triangle} = require('./lib/shapes');
+const { square, circle, triangle } = require('./lib/shapes');
 const { error } = require('console');
 
 // questions array
@@ -43,7 +43,7 @@ class logo {
         return `<svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="300" height="200">${this.shapeEl}${this.textEl}</svg>`
     }
     setText(text, color) {
-        if(text.length > 3 && text.length < 1) {
+        if (text.length > 3 && text.length < 1) {
             throw new error('Please use 1 to 3 letters.')
         }
         this.textEl = `<text x="150" y="125" font-size="40" text-anchor="middle" fill="${color}">${text}</text>`
@@ -52,3 +52,33 @@ class logo {
         this.shapeEl = shape.render();
     }
 }
+
+// initialize app
+function init() {
+    inquirer.createPromptModule(questions)
+        .then((data) => {
+            // defining the text input
+            const logoText = data.text;
+            const logo = new logo();
+
+            // defining the shape
+            let shape = '';
+            if (data.shape == 'square') {
+                shape = new square();
+            } else if (data.shape == 'circle') {
+                shape = new circle();
+            } else if (data.shape == 'triangle') {
+                shape = new triangle();
+            } else {
+                console.log("Did not select a shape, please return and select a shape.")
+            }
+
+            // defining the color for the text and shape
+            shape.setColor(data['shape-color']);
+
+            logo.setText(logoText, data['text-color']);
+            logo.setShape(shape);
+            fs.writeFileSync(`${data.shape}.logo`, logo.render());
+        })
+}
+init();
