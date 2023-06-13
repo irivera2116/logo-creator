@@ -3,7 +3,7 @@ const inquirer = require('inquirer');
 const fs = require('fs');
 const { square, circle, triangle } = require('./lib/shapes');
 const { error } = require('console');
-
+const path = require('path');
 // questions array
 const questions = [
     {
@@ -34,7 +34,7 @@ const questions = [
 ]
 
 // renders the logo
-class logo {
+class svg {
     constructor() {
         this.textEl = '';
         this.shapeEl = '';
@@ -48,18 +48,19 @@ class logo {
         }
         this.textEl = `<text x="150" y="125" font-size="40" text-anchor="middle" fill="${color}">${text}</text>`
     }
-    setShape(shape) {
+    setShape(shape, color) {
+        shape.setColor(color); 
         this.shapeEl = shape.render();
     }
 }
 
 // initialize app
 function init() {
-    inquirer.createPromptModule(questions)
-        .then((data) => {
+    inquirer.prompt(questions)
+        .then(function (data) {
             // defining the text input
             const logoText = data.text;
-            const logo = new logo();
+            const logo = new svg();
 
             // defining the shape
             let shape = '';
@@ -74,11 +75,9 @@ function init() {
             }
 
             // defining the color for the text and shape
-            shape.setColor(data['shape-color']);
-
             logo.setText(logoText, data['text-color']);
-            logo.setShape(shape);
-            fs.writeFileSync(`${data.shape}.logo`, logo.render());
+            logo.setShape(shape, data['shape-color']);
+            fs.writeFileSync(path.join('example', `${data.shape}.svg`), logo.render());
         })
 }
 init();
