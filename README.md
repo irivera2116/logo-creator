@@ -24,3 +24,4 @@ Video Link:
 https://drive.google.com/file/d/1vgnopQELZI9S-_3tYbAeWWpY9nrd2aoe/view
 
 Github Repo:
+https://github.com/irivera2116/logo-creator
